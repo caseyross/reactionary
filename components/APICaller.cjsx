@@ -4,6 +4,7 @@ Autosuggest = require 'react-autosuggest'
 TemperatureDisplay = require './TemperatureDisplay.cjsx'
 
 fetchJsonp = require 'fetch-jsonp'
+WUConfig = require '../config/wu.js'
 
 module.exports = APICaller = React.createClass
     getInitialState: ->
@@ -14,10 +15,13 @@ module.exports = APICaller = React.createClass
         @setState
             search_text: newValue
     updateSuggestions: ( { value } ) ->
-        @getSuggestionsFromAPI(value)
+        @getSuggestionsFromAPI value
         .then (suggestions) =>
             @setState
-                suggestions: suggestions
+                suggestions: @getCities(suggestions)
+    getCities: (suggestions) ->
+        suggestions.filter (x) ->
+            x.type == 'city'
     getSuggestionsFromAPI: (query) ->
         fetchJsonp 'https://autocomplete.wunderground.com/aq?query=' + query,
             jsonpCallback: 'cb'
@@ -31,6 +35,29 @@ module.exports = APICaller = React.createClass
         .catch (err) ->
             console.log err
             []
+    chooseSuggestion: ( event, { suggestion } ) ->
+        @getWeatherFromAPI suggestion.l
+        .then (weather) =>
+            console.log weather
+            @setState
+                weather: weather
+    getWeatherFromAPI: (location) ->
+        url = 'http://api.wunderground.com/api/' +
+            WUConfig.API_KEY +
+            '/almanac/astronomy/conditions/forecast/geolookup' +
+            location +
+            '.json'
+        fetchJsonp url
+        .then (res) ->
+            if res.ok
+                res.json()
+            else
+                throw new Error('Weather API responded with an error')
+        .then (json) ->
+            json
+        .catch (err) ->
+            console.log err
+            null
     render: ->
         <Autosuggest
             suggestions={ @state.suggestions }
@@ -47,4 +74,5 @@ module.exports = APICaller = React.createClass
                 type: 'search'
                 placeholder: 'Where?'
             }
+            onSuggestionSelected={ @chooseSuggestion }
         />
