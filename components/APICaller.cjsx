@@ -1,11 +1,12 @@
 React = require 'react'
 
 Autosuggest = require 'react-autosuggest'
+WUAttribution = require './WUAttribution.cjsx'
 
 fetchJsonp = require 'fetch-jsonp'
 WUConfig = require '../config/wu.js'
 
-module.exports = APICaller = React.createClass
+module.exports = React.createClass
 
     getInitialState: ->
         search_text: ''
@@ -48,7 +49,7 @@ module.exports = APICaller = React.createClass
                 weather: weather
 
     getWeatherFromAPI: (location) ->
-        url = 'http://api.wunderground.com/api/' +
+        url = 'https://api.wunderground.com/api/' +
             WUConfig.API_KEY +
             '/almanac/astronomy/conditions/forecast/geolookup' +
             location +
@@ -66,20 +67,23 @@ module.exports = APICaller = React.createClass
             null
 
     render: ->
-        <Autosuggest
-            suggestions={ @state.suggestions }
-            onSuggestionsUpdateRequested={ @updateSuggestions }
-            getSuggestionValue={ (suggestion) -> suggestion.name }
-            renderSuggestion={ (suggestion) ->
-                <span>
-                    { suggestion.name }
-                </span>
-            }
-            inputProps={
-                value: @state.search_text
-                onChange: @updateSearchText
-                type: 'search'
-                placeholder: 'Where?'
-            }
-            onSuggestionSelected={ @chooseSuggestion }
-        />
+        <div>
+            <Autosuggest
+                suggestions={ @state.suggestions }
+                onSuggestionsUpdateRequested={ @updateSuggestions }
+                getSuggestionValue={ (suggestion) -> suggestion.name }
+                renderSuggestion={ (suggestion) ->
+                    <span>
+                        { suggestion.name }
+                    </span>
+                }
+                inputProps={
+                    value: @state.search_text
+                    onChange: @updateSearchText
+                    type: 'search'
+                    placeholder: 'Where?'
+                }
+                onSuggestionSelected={ @chooseSuggestion }
+            />
+            <WUAttribution />
+        </div>
