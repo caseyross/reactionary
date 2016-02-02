@@ -50,13 +50,7 @@
 
 	ReactDOM = __webpack_require__(158);
 
-	SearchBar = React.createClass({
-	  render: function() {
-	    return React.createElement("input", {
-	      "type": 'search'
-	    });
-	  }
-	});
+	SearchBar = __webpack_require__(160);
 
 	ReactDOM.render(React.createElement(SearchBar, null), document.getElementById('react'));
 
@@ -19660,6 +19654,25 @@
 	'use strict';
 
 	module.exports = __webpack_require__(3);
+
+
+/***/ },
+/* 159 */,
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React, SearchBar;
+
+	React = __webpack_require__(1);
+
+	module.exports = SearchBar = React.createClass({
+	  render: function() {
+	    return React.createElement("input", {
+	      "type": 'search',
+	      "onchange": this.handleChange
+	    });
+	  }
+	});
 
 
 /***/ }

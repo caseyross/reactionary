@@ -1,9 +1,7 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 
-SearchBar = React.createClass
-    render: ->
-        <input type='search'></input>
+SearchBar = require './components/SearchBar.cjsx'
 
 ReactDOM.render(
     <SearchBar />,
