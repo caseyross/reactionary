@@ -1,9 +1,9 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 
-SearchBar = require './components/SearchBar.cjsx'
+APICaller = require './components/APICaller.cjsx'
 
 ReactDOM.render(
-    <SearchBar />,
+    <APICaller />,
     document.getElementById('react')
     )
