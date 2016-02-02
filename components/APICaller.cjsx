@@ -1,6 +1,7 @@
 React = require 'react'
 
 Autosuggest = require 'react-autosuggest'
+IntuitiveTemperatureReadout = require './IntuitiveTemperatureReadout.cjsx'
 WUAttribution = require './WUAttribution.cjsx'
 
 fetchJsonp = require 'fetch-jsonp'
@@ -65,7 +66,16 @@ module.exports = React.createClass
         .catch (err) ->
             console.log err
             null
-
+            
+    maybeRenderWeather: ->
+        if @state.weather?
+            <IntuitiveTemperatureReadout
+                temp={ @state.weather.current_observation.feelslike_c }
+                units='c'
+            />
+        else
+            null
+    
     render: ->
         <div>
             <Autosuggest
@@ -85,5 +95,6 @@ module.exports = React.createClass
                 }
                 onSuggestionSelected={ @chooseSuggestion }
             />
+            { @maybeRenderWeather() }
             <WUAttribution />
         </div>
