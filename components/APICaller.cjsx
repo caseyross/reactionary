@@ -47,6 +47,7 @@ module.exports = React.createClass
         .then (weather) =>
             @setState
                 weather: weather
+                search_text: ''
 
     getWeatherFromAPI: (location) ->
         url = 'https://api.wunderground.com/api/' +

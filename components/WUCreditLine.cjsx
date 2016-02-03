@@ -3,6 +3,6 @@ React = require 'react'
 module.exports = React.createClass
 
     render: ->
-        <p>
+        <div>
             Powered by
-        </p>
+        </div>

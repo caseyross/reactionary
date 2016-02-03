@@ -12,12 +12,28 @@ module.exports = React.createClass
             when c.includes 'storm' then 'stormy'
             when c.includes 'snow' then 'snowy'
             when c.includes 'fog' then 'foggy'
+            when c.includes 'mist' then 'foggy'
             when c.includes 'haze' then 'hazy'
             when c.includes 'cloud' then 'cloudy'
             when c.includes 'overcast' then 'cloudy'
             else 'mysterious'
 
     render: ->
-        <span>
-            { @getIntuitiveConditions @props.conditions }
+        conditions = @getIntuitiveConditions @props.conditions
+        <span style={ styles conditions } >
+            { conditions }
         </span>
+        
+styles = (conditions) ->
+    color: colors[conditions]
+    
+colors =
+    sunny: 'red'
+    icy: 'blue'
+    rainy: 'blue'
+    stormy: 'gray'
+    snowy: 'white'
+    foggy: 'gray'
+    hazy: 'gray'
+    cloudy: 'gray'
+    mysterious: 'yellow'
