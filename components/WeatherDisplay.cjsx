@@ -42,7 +42,7 @@ module.exports = React.createClass
                 <div>
                     It&apos;s
                 </div>
-                <FlexContainer direction='row' justify='center' wrap='wrap' maxWidth='640px'>
+                <FlexContainer direction='row' justify='center' wrap='wrap'>
                     <IntuitiveTemperatureReadout
                         temp={ @props.weather.current_observation.feelslike_c }
                         units='c'

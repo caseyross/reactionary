@@ -10,7 +10,6 @@ module.exports = React.createClass
         flexWrap: @props.wrap
         # These should be set automatically by the caller but I can't figure out how
         height: @props.height
-        maxWidth: @props.maxWidth
         padding: @props.padding
         
     render: ->

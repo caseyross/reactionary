@@ -444,7 +444,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Fredoka+One);", ""]);
 
 	// module
-	exports.push([module.id, "body {\n    font: 1rem/1.5 'Fredoka One', serif;\n    margin: 0;\n}\n\n.react-autosuggest__container {\n    position: relative;\n}\n\n.react-autosuggest__input {\n    width: 600px;\n    height: 60px;\n    padding: 10px 20px;\n    font-size: 2.4rem;\n    border: 1px solid #aaa;\n    border-radius: 4px;\n}\n\n.react-autosuggest__container--open .react-autosuggest__input {\n    border-bottom-left-radius: 0;\n    border-bottom-right-radius: 0;\n}\n\n.react-autosuggest__suggestions-container {\n    position: absolute;\n    top: 80px;\n    width: 320px;\n    margin: 0;\n    padding: 0;\n    list-style-type: none;\n    border: 1px solid #aaa;\n    background: white;\n    border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n}\n\n.react-autosuggest__suggestion {\n    cursor: pointer;\n    padding: 10px 20px;\n}\n\n.react-autosuggest__suggestion--focused {\n    background-color: #ddd;\n}\n", ""]);
+	exports.push([module.id, "body {\n    font: 1rem/1.5 'Fredoka One', serif;\n    margin: 0;\n}\n\ninput[type='search'] {\n    box-sizing: border-box;\n}\n\n.react-autosuggest__container {\n    position: relative;\n}\n\n.react-autosuggest__input {\n    width: 100%;\n    height: 80px;\n    padding: 10px 20px;\n    font-size: 2.4rem;\n    border: 1px solid #aaa;\n    border-radius: 4px;\n}\n\n.react-autosuggest__container--open .react-autosuggest__input {\n    border-bottom-left-radius: 0;\n    border-bottom-right-radius: 0;\n}\n\n.react-autosuggest__suggestions-container {\n    position: absolute;\n    top: 80px;\n    width: 320px;\n    margin: 0;\n    padding: 0;\n    list-style-type: none;\n    border: 1px solid #aaa;\n    background: white;\n    border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n}\n\n.react-autosuggest__suggestion {\n    cursor: pointer;\n    padding: 10px 20px;\n}\n\n.react-autosuggest__suggestion--focused {\n    background-color: #ddd;\n}\n\n@media screen and (min-resolution: 130dpi) {\n    \n    body {\n        font-size: 240%;\n    }\n\n    .react-autosuggest__suggestions-container {\n        width: 640px;\n    }\n    \n}", ""]);
 
 	// exports
 
@@ -20099,7 +20099,6 @@
 	      alignItems: this.props.align,
 	      flexWrap: this.props.wrap,
 	      height: this.props.height,
-	      maxWidth: this.props.maxWidth,
 	      padding: this.props.padding
 	    };
 	  },
@@ -20123,11 +20122,11 @@
 
 	WeatherDisplay = __webpack_require__(197);
 
-	WUAttribution = __webpack_require__(198);
+	WUAttribution = __webpack_require__(201);
 
-	fetchJsonp = __webpack_require__(202);
+	fetchJsonp = __webpack_require__(205);
 
-	WUConfig = __webpack_require__(201);
+	WUConfig = __webpack_require__(204);
 
 	module.exports = React.createClass({
 	  getInitialState: function() {
@@ -22931,11 +22930,11 @@
 
 	FlexContainer = __webpack_require__(166);
 
-	IntuitiveTemperatureReadout = __webpack_require__(203);
+	IntuitiveTemperatureReadout = __webpack_require__(198);
 
-	IntuitiveConditionsReadout = __webpack_require__(204);
+	IntuitiveConditionsReadout = __webpack_require__(199);
 
-	LocationReadout = __webpack_require__(205);
+	LocationReadout = __webpack_require__(200);
 
 	module.exports = React.createClass({
 	  maybeRenderConditions: function() {
@@ -22980,8 +22979,7 @@
 	    }, React.createElement("div", null, "It\'s"), React.createElement(FlexContainer, {
 	      "direction": 'row',
 	      "justify": 'center',
-	      "wrap": 'wrap',
-	      "maxWidth": '640px'
+	      "wrap": 'wrap'
 	    }, React.createElement(IntuitiveTemperatureReadout, {
 	      "temp": this.props.weather.current_observation.feelslike_c,
 	      "units": 'c'
@@ -23000,13 +22998,185 @@
 /* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React, colors;
+
+	React = __webpack_require__(7);
+
+	module.exports = React.createClass({
+	  getIntuitiveTemperature: function(temp, units) {
+	    if (units === 'f') {
+	      temp = (temp - 32) * 5 / 9;
+	    }
+	    switch (false) {
+	      case !(temp < -5):
+	        return 'very cold';
+	      case !(temp < 5):
+	        return 'cold';
+	      case !(temp < 20):
+	        return 'cool';
+	      case !(temp < 25):
+	        return 'warm';
+	      case !(temp < 35):
+	        return 'hot';
+	      default:
+	        return 'very hot';
+	    }
+	  },
+	  style: function(temp) {
+	    return {
+	      color: colors[temp],
+	      textTransform: 'uppercase',
+	      fontSize: '4.8rem'
+	    };
+	  },
+	  render: function() {
+	    var temp;
+	    temp = this.getIntuitiveTemperature(this.props.temp, this.props.units);
+	    return React.createElement("span", {
+	      "style": this.style(temp)
+	    }, temp);
+	  }
+	});
+
+	colors = {
+	  'very cold': '#6F66E4',
+	  cold: '#86A2DC',
+	  cool: '#C2D5FF',
+	  warm: '#FF972F',
+	  hot: '#FF5821',
+	  'very hot': '#FF310A'
+	};
+
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React, colors;
+
+	React = __webpack_require__(7);
+
+	module.exports = React.createClass({
+	  getIntuitiveConditions: function(conditions) {
+	    var c;
+	    c = conditions.toLowerCase();
+	    switch (false) {
+	      case !c.includes('clear'):
+	        if (this.props.daytime) {
+	          return 'sunny';
+	        } else {
+	          return 'clear';
+	        }
+	        break;
+	      case !c.includes('scattered'):
+	        if (this.props.daytime) {
+	          return 'sunny';
+	        } else {
+	          return 'clear';
+	        }
+	        break;
+	      case !c.includes('squall'):
+	        return 'windy';
+	      case !c.includes('blowing'):
+	        return 'windy';
+	      case !c.includes('haze'):
+	        return 'hazy';
+	      case !c.includes('smoke'):
+	        return 'hazy';
+	      case !c.includes('ash'):
+	        return 'hazy';
+	      case !c.includes('dust'):
+	        return 'hazy';
+	      case !c.includes('sand'):
+	        return 'hazy';
+	      case !c.includes('mist'):
+	        return 'misty';
+	      case !c.includes('spray'):
+	        return 'misty';
+	      case !c.includes('drizzle'):
+	        return 'misty';
+	      case !c.includes('freezing'):
+	        return 'icy';
+	      case !c.includes('sleet'):
+	        return 'icy';
+	      case !c.includes('hail'):
+	        return 'icy';
+	      case !c.includes('ice'):
+	        return 'icy';
+	      case !c.includes('storm'):
+	        return 'stormy';
+	      case !c.includes('funnel'):
+	        return 'stormy';
+	      case !c.includes('fog'):
+	        return 'foggy';
+	      case !c.includes('cloud'):
+	        return 'cloudy';
+	      case !c.includes('overcast'):
+	        return 'cloudy';
+	      case !c.includes('snow'):
+	        return 'snowy';
+	      case !c.includes('rain'):
+	        return 'rainy';
+	      default:
+	        return 'mysterious';
+	    }
+	  },
+	  style: function(conditions) {
+	    return {
+	      color: colors[conditions],
+	      textTransform: 'uppercase',
+	      fontSize: '4.8rem'
+	    };
+	  },
+	  render: function() {
+	    var conditions;
+	    conditions = this.getIntuitiveConditions(this.props.conditions);
+	    return React.createElement("span", {
+	      "style": this.style(conditions)
+	    }, conditions);
+	  }
+	});
+
+	colors = {
+	  sunny: '#F3F0CB',
+	  hazy: '#CCA983',
+	  misty: '#8EBD95',
+	  icy: '#D5EDF5',
+	  stormy: '#222',
+	  foggy: 'gray',
+	  cloudy: '#D6C9D5',
+	  snowy: 'white',
+	  rainy: '#745EE2',
+	  mysterious: '#FF5A3C'
+	};
+
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React;
+
+	React = __webpack_require__(7);
+
+	module.exports = React.createClass({
+	  render: function() {
+	    return React.createElement("span", null, this.props.location.full);
+	  }
+	});
+
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React, WUCreditLine, WULogo;
 
 	React = __webpack_require__(7);
 
-	WUCreditLine = __webpack_require__(199);
+	WUCreditLine = __webpack_require__(202);
 
-	WULogo = __webpack_require__(200);
+	WULogo = __webpack_require__(203);
 
 	module.exports = React.createClass({
 	  style: function() {
@@ -23025,7 +23195,7 @@
 
 
 /***/ },
-/* 199 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React;
@@ -23040,14 +23210,14 @@
 
 
 /***/ },
-/* 200 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, WUConfig;
 
 	React = __webpack_require__(7);
 
-	WUConfig = __webpack_require__(201);
+	WUConfig = __webpack_require__(204);
 
 	module.exports = React.createClass({
 	  style: function() {
@@ -23067,7 +23237,7 @@
 
 
 /***/ },
-/* 201 */
+/* 204 */
 /***/ function(module, exports) {
 
 	exports.API_KEY = '902d485335b1a2d8';
@@ -23075,7 +23245,7 @@
 	exports.LOGO_SRC = 'http://icons.wxug.com/logos/PNG/wundergroundLogo_4c_rev_horz.png';
 
 /***/ },
-/* 202 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -23183,178 +23353,6 @@
 
 	  module.exports = fetchJsonp;
 	});
-
-/***/ },
-/* 203 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React, colors;
-
-	React = __webpack_require__(7);
-
-	module.exports = React.createClass({
-	  getIntuitiveTemperature: function(temp, units) {
-	    if (units === 'f') {
-	      temp = (temp - 32) * 5 / 9;
-	    }
-	    switch (false) {
-	      case !(temp < -5):
-	        return 'very cold';
-	      case !(temp < 5):
-	        return 'cold';
-	      case !(temp < 20):
-	        return 'cool';
-	      case !(temp < 25):
-	        return 'warm';
-	      case !(temp < 35):
-	        return 'hot';
-	      default:
-	        return 'very hot';
-	    }
-	  },
-	  style: function(temp) {
-	    return {
-	      color: colors[temp],
-	      textTransform: 'uppercase',
-	      fontSize: '4.8rem'
-	    };
-	  },
-	  render: function() {
-	    var temp;
-	    temp = this.getIntuitiveTemperature(this.props.temp, this.props.units);
-	    return React.createElement("span", {
-	      "style": this.style(temp)
-	    }, temp);
-	  }
-	});
-
-	colors = {
-	  'very cold': '#6F66E4',
-	  cold: '#86A2DC',
-	  cool: '#C2D5FF',
-	  warm: '#FF972F',
-	  hot: '#FF5821',
-	  'very hot': '#FF310A'
-	};
-
-
-/***/ },
-/* 204 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React, colors;
-
-	React = __webpack_require__(7);
-
-	module.exports = React.createClass({
-	  getIntuitiveConditions: function(conditions) {
-	    var c;
-	    c = conditions.toLowerCase();
-	    switch (false) {
-	      case !c.includes('clear'):
-	        if (this.props.daytime) {
-	          return 'sunny';
-	        } else {
-	          return 'clear';
-	        }
-	        break;
-	      case !c.includes('scattered'):
-	        if (this.props.daytime) {
-	          return 'sunny';
-	        } else {
-	          return 'clear';
-	        }
-	        break;
-	      case !c.includes('squall'):
-	        return 'windy';
-	      case !c.includes('blowing'):
-	        return 'windy';
-	      case !c.includes('haze'):
-	        return 'hazy';
-	      case !c.includes('smoke'):
-	        return 'hazy';
-	      case !c.includes('ash'):
-	        return 'hazy';
-	      case !c.includes('dust'):
-	        return 'hazy';
-	      case !c.includes('sand'):
-	        return 'hazy';
-	      case !c.includes('mist'):
-	        return 'misty';
-	      case !c.includes('spray'):
-	        return 'misty';
-	      case !c.includes('drizzle'):
-	        return 'misty';
-	      case !c.includes('freezing'):
-	        return 'icy';
-	      case !c.includes('sleet'):
-	        return 'icy';
-	      case !c.includes('hail'):
-	        return 'icy';
-	      case !c.includes('ice'):
-	        return 'icy';
-	      case !c.includes('storm'):
-	        return 'stormy';
-	      case !c.includes('funnel'):
-	        return 'stormy';
-	      case !c.includes('fog'):
-	        return 'foggy';
-	      case !c.includes('cloud'):
-	        return 'cloudy';
-	      case !c.includes('overcast'):
-	        return 'cloudy';
-	      case !c.includes('snow'):
-	        return 'snowy';
-	      case !c.includes('rain'):
-	        return 'rainy';
-	      default:
-	        return 'mysterious';
-	    }
-	  },
-	  style: function(conditions) {
-	    return {
-	      color: colors[conditions],
-	      textTransform: 'uppercase',
-	      fontSize: '4.8rem'
-	    };
-	  },
-	  render: function() {
-	    var conditions;
-	    conditions = this.getIntuitiveConditions(this.props.conditions);
-	    return React.createElement("span", {
-	      "style": this.style(conditions)
-	    }, conditions);
-	  }
-	});
-
-	colors = {
-	  sunny: '#F3F0CB',
-	  hazy: '#CCA983',
-	  misty: '#8EBD95',
-	  icy: '#D5EDF5',
-	  stormy: '#222',
-	  foggy: 'gray',
-	  cloudy: '#D6C9D5',
-	  snowy: 'white',
-	  rainy: '#745EE2',
-	  mysterious: '#FF5A3C'
-	};
-
-
-/***/ },
-/* 205 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React;
-
-	React = __webpack_require__(7);
-
-	module.exports = React.createClass({
-	  render: function() {
-	    return React.createElement("span", null, this.props.location.full);
-	  }
-	});
-
 
 /***/ }
 /******/ ]);
