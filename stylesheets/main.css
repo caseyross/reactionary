@@ -1,7 +1,7 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Fredoka+One);
+@import url(https://fonts.googleapis.com/css?family=Fredoka+One);
 
 body {
-    font: 1rem/1.5 'Fredoka One', Montserrat, sans-serif;
+    font: 1rem/1.5 'Fredoka One', serif;
     margin: 0;
 }
 

@@ -78,7 +78,7 @@ module.exports = React.createClass
     render: ->
         <div>
             <Autosuggest
-                suggestions={ @state.suggestions }
+                suggestions={ @state.suggestions[..9] }
                 onSuggestionsUpdateRequested={ @updateSuggestions }
                 getSuggestionValue={ (suggestion) -> suggestion.name }
                 renderSuggestion={ (suggestion) ->

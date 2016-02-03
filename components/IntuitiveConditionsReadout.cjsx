@@ -36,17 +36,17 @@ module.exports = React.createClass
             when c.includes 'rain' then 'rainy'
             
             else 'mysterious'
+        
+    style: (conditions) ->
+        color: colors[conditions]
+        textTransform: 'uppercase'
+        fontSize: '4.8rem'
 
     render: ->
         conditions = @getIntuitiveConditions @props.conditions
-        <span style={ styles conditions } >
+        <span style={ @style conditions } >
             { conditions }
         </span>
-        
-styles = (conditions) ->
-    color: colors[conditions]
-    textTransform: 'uppercase'
-    fontSize: '3.2rem'
     
 colors =
     windy: 'red'

@@ -12,22 +12,22 @@ module.exports = React.createClass
             when temp < 25 then 'warm'
             when temp < 35 then 'hot'
             else 'very hot'
+        
+    style: (temp) ->
+        color: colors[temp]
+        textTransform: 'uppercase'
+        fontSize: '4.8rem'
 
     render: ->
         temp = @getIntuitiveTemperature @props.temp, @props.units
-        <span style={ styles temp } >
+        <span style={ @style temp } >
             { temp }
         </span>
-        
-styles = (temp) ->
-    color: colors[temp]
-    textTransform: 'uppercase'
-    fontSize: '3.2rem'
     
 colors =
-    'very cold': '#A0BFFF'
+    'very cold': '#8EB2FF'
     cold: '#A0BFFF'
-    cool: '#A0BFFF'
+    cool: '#C2D5FF'
     warm: '#FF972F'
     hot: '#FF4B00'
     'very hot': '#FF2800'

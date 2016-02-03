@@ -1,5 +1,6 @@
 React = require 'react'
 
+FlexContainer = require './FlexContainer.cjsx'
 IntuitiveTemperatureReadout = require './IntuitiveTemperatureReadout.cjsx'
 IntuitiveConditionsReadout = require './IntuitiveConditionsReadout.cjsx'
 LocationReadout = require './LocationReadout.cjsx'
@@ -7,6 +8,7 @@ LocationReadout = require './LocationReadout.cjsx'
 module.exports = React.createClass
 
     maybeRenderConditions: ->
+        console.log @props.weather
         conditions = @props.weather.current_observation.weather
         c = conditions.toLowerCase()
         switch
@@ -17,32 +19,37 @@ module.exports = React.createClass
             when c.includes 'scattered' then null
             else
                 <span>
-                    <span> and </span> 
+                    <span style={ margin: '20px' } >
+                        and
+                    </span> 
                     <IntuitiveConditionsReadout
                         conditions={ conditions }
                     />
                 </span>
+        
+    style: ->
+        color: '#ccc'
+        fontSize: '1.6rem'
+        margin: '20px 0'
             
     render: ->
-        <div style={ styles } >
-            <div>
-                It is currently
-            </div>
-            <div>
-                <IntuitiveTemperatureReadout
-                    temp={ @props.weather.current_observation.feelslike_c }
-                    units='c'
-                />
-                { @maybeRenderConditions() }
-            </div>
-            <div>
-                in 
-                <LocationReadout
-                    location={ @props.weather.current_observation.display_location }
-                />
-            </div>
+        <div style={ @style() } >
+            <FlexContainer direction='column' justify='center' padding='20px'>
+                <div>
+                    It&apos;s
+                </div>
+                <FlexContainer direction='row' justify='center' wrap='wrap' maxWidth='640px'>
+                    <IntuitiveTemperatureReadout
+                        temp={ @props.weather.current_observation.feelslike_c }
+                        units='c'
+                    />
+                    { @maybeRenderConditions() }
+                </FlexContainer>
+                <div style={ alignSelf: 'flex-end' } >
+                    in 
+                    <LocationReadout
+                        location={ @props.weather.current_observation.display_location }
+                    />
+                </div>
+            </FlexContainer>
         </div>
-        
-styles =
-    color: '#ccc'
-    fontSize: '1.6rem'

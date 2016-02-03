@@ -5,13 +5,13 @@ APICaller = require './APICaller.cjsx'
 
 module.exports = React.createClass
 
+    style: ->
+        background: '#444'
+        height: '100%'
+        
     render: ->
-        <div style={ styles } >
-            <FlexContainer direction='column' align='center'>
+        <div style={ @style() } >
+            <FlexContainer direction='column' justify='center' align='center' height='100%'>
                 <APICaller />
             </FlexContainer>
         </div>
-        
-styles =
-    background: '#444'
-    height: '100%'
