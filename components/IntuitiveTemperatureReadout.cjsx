@@ -25,9 +25,9 @@ styles = (temp) ->
     fontSize: '3.2rem'
     
 colors =
-    'very cold': 'blue'
-    cold: 'blue'
-    cool: 'blue'
-    warm: 'yellow'
-    hot: 'orange'
-    'very hot': 'red'
+    'very cold': '#A0BFFF'
+    cold: '#A0BFFF'
+    cool: '#A0BFFF'
+    warm: '#FF972F'
+    hot: '#FF4B00'
+    'very hot': '#FF2800'

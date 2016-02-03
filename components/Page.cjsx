@@ -1,12 +1,15 @@
 React = require 'react'
 
+FlexContainer = require './FlexContainer.cjsx'
 APICaller = require './APICaller.cjsx'
 
 module.exports = React.createClass
 
     render: ->
         <div style={ styles } >
-            <APICaller />
+            <FlexContainer direction='column' align='center'>
+                <APICaller />
+            </FlexContainer>
         </div>
         
 styles =
