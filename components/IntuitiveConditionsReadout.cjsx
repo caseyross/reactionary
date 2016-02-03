@@ -54,13 +54,13 @@ module.exports = React.createClass
         </span>
     
 colors =
-    windy: 'red'
-    hazy: 'gray'
-    misty: 'red'
-    icy: 'blue'
-    stormy: 'gray'
+    sunny: '#F3F0CB'
+    hazy: '#CCA983'
+    misty: '#8EBD95'
+    icy: '#D5EDF5'
+    stormy: '#222'
     foggy: 'gray'
-    cloudy: 'gray'
+    cloudy: '#D6C9D5'
     snowy: 'white'
-    rainy: 'blue'
-    mysterious: 'yellow'
+    rainy: '#745EE2'
+    mysterious: '#FF5A3C'

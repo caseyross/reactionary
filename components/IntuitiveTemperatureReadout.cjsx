@@ -25,9 +25,9 @@ module.exports = React.createClass
         </span>
     
 colors =
-    'very cold': '#8EB2FF'
-    cold: '#A0BFFF'
+    'very cold': '#6F66E4'
+    cold: '#86A2DC'
     cool: '#C2D5FF'
     warm: '#FF972F'
-    hot: '#FF4B00'
-    'very hot': '#FF2800'
+    hot: '#FF5821'
+    'very hot': '#FF310A'
