@@ -8,15 +8,10 @@ LocationReadout = require './LocationReadout.cjsx'
 module.exports = React.createClass
 
     maybeRenderConditions: ->
-        console.log @props.weather
         conditions = @props.weather.current_observation.weather
         c = conditions.toLowerCase()
         switch
             when c == '' then null
-            when c.includes 'clear' then null
-            when c.includes 'chance' then null
-            when c.includes 'partly' then null
-            when c.includes 'scattered' then null
             else
                 <span>
                     <span style={ margin: '20px' } >
@@ -24,8 +19,17 @@ module.exports = React.createClass
                     </span> 
                     <IntuitiveConditionsReadout
                         conditions={ conditions }
+                        daytime={ @isLocalDaytime() }
                     />
                 </span>
+                
+    isLocalDaytime: ->
+        time = @props.weather.moon_phase.current_time
+        sunrise = @props.weather.moon_phase.sunrise
+        sunset = @props.weather.moon_phase.sunset
+        return sunrise.hour < parseInt(time.hour, 10) < sunset.hour or
+            sunrise.hour == time.hour && sunrise.minute < parseInt(time.minute, 10) or
+            time.hour == sunset.hour && parseInt(time.minute, 10) < sunset.minute
         
     style: ->
         color: '#ccc'

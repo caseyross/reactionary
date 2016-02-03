@@ -5,6 +5,11 @@ module.exports = React.createClass
     getIntuitiveConditions: (conditions) ->
         c = conditions.toLowerCase()
         switch
+            when c.includes 'clear'
+                if @props.daytime then 'sunny' else 'clear'
+            when c.includes 'scattered'
+                if @props.daytime then 'sunny' else 'clear'
+            
             when c.includes 'squall' then 'windy'
             when c.includes 'blowing' then 'windy'
             
