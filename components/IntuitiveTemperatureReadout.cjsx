@@ -14,6 +14,6 @@ module.exports = React.createClass
             else 'very hot'
 
     render: ->
-        <div>
+        <span>
             { @getIntuitiveTemperature @props.temp, @props.units }
-        </div>
+        </span>
