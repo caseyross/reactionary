@@ -14,6 +14,18 @@ module.exports = React.createClass
             else 'very hot'
 
     render: ->
-        <span>
-            { @getIntuitiveTemperature @props.temp, @props.units }
+        temp = @getIntuitiveTemperature @props.temp, @props.units
+        <span style={ styles temp } >
+            { temp }
         </span>
+        
+styles = (temp) ->
+    color: colors[temp]
+    
+colors =
+    'very cold': 'blue'
+    cold: 'blue'
+    cool: 'blue'
+    warm: 'yellow'
+    hot: 'orange'
+    'very hot': 'red'

@@ -10,6 +10,7 @@ module.exports = React.createClass
         conditions = @props.weather.current_observation.weather
         c = conditions.toLowerCase()
         switch
+            when c == '' then null
             when c.includes 'clear' then null
             when c.includes 'chance' then null
             when c.includes 'partly' then null
