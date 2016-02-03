@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.coffee",
   "dependencies": {
+    "coffee-script": "^1.10.0",
     "express": "^4.13.4",
     "fetch-jsonp": "^1.0.0",
     "jade": "^1.11.0",
