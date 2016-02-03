@@ -21,6 +21,8 @@ module.exports = React.createClass
         
 styles = (temp) ->
     color: colors[temp]
+    textTransform: 'uppercase'
+    fontSize: '3.2rem'
     
 colors =
     'very cold': 'blue'

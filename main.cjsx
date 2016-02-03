@@ -1,9 +1,12 @@
+require 'normalize.css'
+require './stylesheets/main.css'
+
 React = require 'react'
 ReactDOM = require 'react-dom'
 
-APICaller = require './components/APICaller.cjsx'
+Page = require './components/Page.cjsx'
 
 ReactDOM.render(
-    <APICaller />,
+    <Page />,
     document.getElementById('react')
     )

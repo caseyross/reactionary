@@ -45,6 +45,8 @@ module.exports = React.createClass
         
 styles = (conditions) ->
     color: colors[conditions]
+    textTransform: 'uppercase'
+    fontSize: '3.2rem'
     
 colors =
     windy: 'red'

@@ -24,7 +24,7 @@ module.exports = React.createClass
                 </span>
             
     render: ->
-        <div>
+        <div style={ styles } >
             <div>
                 It is currently
             </div>
@@ -42,3 +42,7 @@ module.exports = React.createClass
                 />
             </div>
         </div>
+        
+styles =
+    color: '#ccc'
+    fontSize: '1.6rem'

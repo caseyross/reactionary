@@ -13,8 +13,8 @@ module.exports = {
                 loader: 'coffee!cjsx'
             },
             {
-                test:/\.styl$/,
-                loader:'style!css!stylus'
+                test: /\.css$/,
+                loader: 'style!css'
             }
             ]
     }
