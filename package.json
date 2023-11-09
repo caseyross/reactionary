@@ -1,20 +1,29 @@
 {
-  "name": "react-wunderground",
+  "name": "reactionary",
   "version": "0.0.0",
   "description": "",
   "main": "server.coffee",
   "dependencies": {
-    "coffee-script": "^1.10.0",
-    "express": "^4.13.4",
-    "fetch-jsonp": "^1.0.0",
-    "jade": "^1.11.0",
-    "normalize.css": "^3.0.3",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "cjsx-loader": "2.1.0",
+    "coffee-loader": "0.7.2",
+    "coffee-script": "1.10.0",
+    "css-loader": "0.23.1",
+    "dotenv-webpack": "^4.0.0",
+    "express": "4.13.4",
+    "html-webpack-plugin": "^3.2.0",
+    "jade": "1.11.0",
+    "jade-loader": "^0.8.0",
+    "json-loader": "^0.5.7",
+    "normalize.css": "3.0.3",
+    "react": "0.14.7",
+    "react-autosuggest": "3.4.0",
+    "react-dom": "0.14.7",
+    "style-loader": "0.13.0",
+    "webpack": "1.12.12"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "serve": "coffee server.coffee"
   },
-  "license": "ISC"
+  "license": "CC0"
 }

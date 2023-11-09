@@ -4,5 +4,5 @@ module.exports = React.createClass
 
     render: ->
         <span>
-            { @props.location.full }
+            { @props.location }
         </span>

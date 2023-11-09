@@ -1,0 +1,3 @@
+The data in this folder are licensed under CC-BY-4.0 from:
+
+simplemaps (https://simplemaps.com/data/world-cities)

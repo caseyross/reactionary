@@ -5,13 +5,18 @@ module.exports = React.createClass
     getIntuitiveConditions: (conditions) ->
         c = conditions.toLowerCase()
         switch
-            when c.includes 'clear'
-                if @props.daytime then 'sunny' else 'clear'
-            when c.includes 'scattered'
-                if @props.daytime then 'sunny' else 'clear'
+            when c.includes 'storm' then 'stormy'
+            when c.includes 'squall' then 'stormy'
+            when c.includes 'tornado' then 'stormy'
             
-            when c.includes 'squall' then 'windy'
-            when c.includes 'blowing' then 'windy'
+            when c.includes 'snow' then 'snowy'
+            
+            when c.includes 'sleet' then 'icy'
+            
+            when c.includes 'rain' then 'rainy'
+            
+            when c.includes 'mist' then 'misty'
+            when c.includes 'drizzle' then 'misty'
             
             when c.includes 'haze' then 'hazy'
             when c.includes 'smoke' then 'hazy'
@@ -19,26 +24,14 @@ module.exports = React.createClass
             when c.includes 'dust' then 'hazy'
             when c.includes 'sand' then 'hazy'
             
-            when c.includes 'mist' then 'misty'
-            when c.includes 'spray' then 'misty'
-            when c.includes 'drizzle' then 'misty'
-            
-            when c.includes 'freezing' then 'icy'
-            when c.includes 'sleet' then 'icy'
-            when c.includes 'hail' then 'icy'
-            when c.includes 'ice' then 'icy'
-            
-            when c.includes 'storm' then 'stormy'
-            when c.includes 'funnel' then 'stormy'
-            
             when c.includes 'fog' then 'foggy'
             
-            when c.includes 'cloud' then 'cloudy'
             when c.includes 'overcast' then 'cloudy'
-            
-            when c.includes 'snow' then 'snowy'
-            
-            when c.includes 'rain' then 'rainy'
+            when c.includes 'broken clouds' then 'cloudy'
+
+            when (c.includes 'clear') or (c.includes 'few clouds') or (c.includes 'scattered clouds')
+                if @props.windy then 'windy'
+                if @props.daytime then 'sunny' else 'clear'
             
             else 'mysterious'
         

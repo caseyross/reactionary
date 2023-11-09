@@ -8,6 +8,7 @@ module.exports = React.createClass
     style: ->
         background: '#444'
         height: '100%'
+        overflow: 'hidden'
         
     render: ->
         <div style={ @style() } >

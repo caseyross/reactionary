@@ -6,11 +6,11 @@ module.exports = React.createClass
         if units == 'f'
             temp = (temp - 32) * 5/9
         switch
-            when temp < -5 then 'very cold'
-            when temp < 5 then 'cold'
-            when temp < 20 then 'cool'
-            when temp < 25 then 'warm'
-            when temp < 35 then 'hot'
+            when temp < -7 then 'very cold'
+            when temp < 11 then 'cold'
+            when temp < 22 then 'cool'
+            when temp < 29 then 'warm'
+            when temp < 37 then 'hot'
             else 'very hot'
         
     style: (temp) ->

@@ -1,99 +1,90 @@
 React = require 'react'
 
 Autosuggest = require 'react-autosuggest'
+DatasourceAttribution = require './DatasourceAttribution.cjsx'
 WeatherDisplay = require './WeatherDisplay.cjsx'
-WUAttribution = require './WUAttribution.cjsx'
 
-fetchJsonp = require 'fetch-jsonp'
-WUConfig = require '../config/wu.js'
+worldCities = require '../data/worldCities.json'
 
 module.exports = React.createClass
 
-    getInitialState: ->
-        search_text: ''
-        suggestions: []
-        weather: null
+	getInitialState: ->
+		search_text: ''
+		suggestions: []
+		city: ''
+		weather: null
 
-    updateSearchText: (event, { newValue }) ->
-        @setState
-            search_text: newValue
+	updateSearchText: (event, { newValue }) ->
+		@setState
+			search_text: newValue
 
-    updateSuggestions: ( { value } ) ->
-        @getSuggestionsFromAPI value
-        .then (suggestions) =>
-            @setState
-                suggestions: @getCities(suggestions)
+	updateSuggestions: ( { value } ) ->
+		@getSuggestionsFromDatastore value
+		.then (suggestions) =>
+			@setState
+				suggestions: suggestions
 
-    getCities: (suggestions) ->
-        suggestions.filter (x) ->
-            x.type == 'city'
+	getSuggestionsFromDatastore: (query) ->
+		i = 0
+		suggestions = []
+		while suggestions.length < 10 and i < worldCities.data.length
+			current_city = worldCities.data[i]
+			if current_city.n.toLowerCase().startsWith(query)
+				suggestions.push(current_city)
+			i += 1
+		Promise.resolve suggestions
 
-    getSuggestionsFromAPI: (query) ->
-        fetchJsonp 'https://autocomplete.wunderground.com/aq?query=' + query,
-            jsonpCallback: 'cb'
-        .then (res) ->
-            if res.ok
-                res.json()
-            else
-                throw new Error('Autocomplete API responded with an error')
-        .then (json) ->
-            json.RESULTS
-        .catch (err) ->
-            console.log err
-            []
+	chooseSuggestion: ( event, { suggestion } ) ->
+		@getWeatherFromAPI [ suggestion.y, suggestion.x ]
+		.then (weather) =>
+			@setState
+				city: suggestion.n
+				weather: weather
+				search_text: ''
 
-    chooseSuggestion: ( event, { suggestion } ) ->
-        @getWeatherFromAPI suggestion.l
-        .then (weather) =>
-            @setState
-                weather: weather
-                search_text: ''
-
-    getWeatherFromAPI: (location) ->
-        url = 'https://api.wunderground.com/api/' +
-            WUConfig.API_KEY +
-            '/almanac/astronomy/conditions/forecast/geolookup' +
-            location +
-            '.json'
-        fetchJsonp url
-        .then (res) ->
-            if res.ok
-                res.json()
-            else
-                throw new Error('Weather API responded with an error')
-        .then (json) ->
-            json
-        .catch (err) ->
-            console.log err
-            null
-            
-    maybeRenderWeather: ->
-        if @state.weather?
-            <WeatherDisplay
-                weather={ @state.weather }
-            />
-        else
-            null
-    
-    render: ->
-        <div>
-            <Autosuggest
-                suggestions={ @state.suggestions[..9] }
-                onSuggestionsUpdateRequested={ @updateSuggestions }
-                getSuggestionValue={ (suggestion) -> suggestion.name }
-                renderSuggestion={ (suggestion) ->
-                    <span>
-                        { suggestion.name }
-                    </span>
-                }
-                inputProps={
-                    value: @state.search_text
-                    onChange: @updateSearchText
-                    type: 'search'
-                    placeholder: 'Where?'
-                }
-                onSuggestionSelected={ @chooseSuggestion }
-            />
-            { @maybeRenderWeather() }
-            <WUAttribution />
-        </div>
+	getWeatherFromAPI: ([ lat, lon ]) ->
+		url = "https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lon}&units=metric&appid=#{process.env.OW_API_KEY}"
+		fetch url
+		.then (res) ->
+			switch res.status
+				when 200
+					res.json()
+				else
+					throw new Error('Weather API did not respond as expected')
+		.then (json) ->
+			json
+		.catch (err) ->
+			console.log err
+			null
+			
+	maybeRenderWeather: ->
+		if @state.weather?
+			<WeatherDisplay
+				weather={ @state.weather }
+				location={ @state.city }
+			/>
+		else
+			null
+	
+	render: ->
+		<div>
+			<Autosuggest
+				suggestions={ @state.suggestions }
+				onSuggestionsUpdateRequested={ @updateSuggestions }
+				getSuggestionValue={ (suggestion) -> suggestion.n + ', ' + suggestion.c }
+				renderSuggestion={ (suggestion) ->
+					<span>
+						{ suggestion.n + ', ' + suggestion.c }
+					</span>
+				}
+				inputProps={
+					value: @state.search_text
+					onChange: @updateSearchText
+					type: 'search'
+					placeholder: 'Where?'
+				}
+				onSuggestionSelected={ @chooseSuggestion }
+			/>
+			{ @maybeRenderWeather() }
+			<DatasourceAttribution />
+		</div>

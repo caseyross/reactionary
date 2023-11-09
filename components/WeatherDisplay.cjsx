@@ -8,28 +8,26 @@ LocationReadout = require './LocationReadout.cjsx'
 module.exports = React.createClass
 
     maybeRenderConditions: ->
-        conditions = @props.weather.current_observation.weather
-        c = conditions.toLowerCase()
+        conditions = @props.weather.weather[0].description
         switch
-            when c == '' then null
+            when conditions == '' then null
             else
                 <span>
                     <span style={ margin: '20px' } >
                         and
-                    </span> 
+                    </span>
                     <IntuitiveConditionsReadout
                         conditions={ conditions }
                         daytime={ @isLocalDaytime() }
+                        windy={ @props.weather.wind.speed > 5 }
                     />
                 </span>
                 
     isLocalDaytime: ->
-        time = @props.weather.moon_phase.current_time
-        sunrise = @props.weather.moon_phase.sunrise
-        sunset = @props.weather.moon_phase.sunset
-        return sunrise.hour < parseInt(time.hour, 10) < sunset.hour or
-            sunrise.hour == time.hour && sunrise.minute < parseInt(time.minute, 10) or
-            time.hour == sunset.hour && parseInt(time.minute, 10) < sunset.minute
+        time = @props.weather.dt
+        sunrise = @props.weather.sys.sunrise
+        sunset = @props.weather.sys.sunset
+        return sunrise < time < sunset
         
     style: ->
         color: '#ccc'
@@ -44,7 +42,7 @@ module.exports = React.createClass
                 </div>
                 <FlexContainer direction='row' justify='center' wrap='wrap'>
                     <IntuitiveTemperatureReadout
-                        temp={ @props.weather.current_observation.feelslike_c }
+                        temp={ @props.weather.main.feels_like }
                         units='c'
                     />
                     { @maybeRenderConditions() }
@@ -52,7 +50,7 @@ module.exports = React.createClass
                 <div style={ alignSelf: 'flex-end' } >
                     in 
                     <LocationReadout
-                        location={ @props.weather.current_observation.display_location }
+                        location={ @props.location }
                     />
                 </div>
             </FlexContainer>
